@@ -5,8 +5,9 @@
 
 function reverseString(str) {
   // Tu solución acá  
+  let reversedString = str.split('').reverse().join('')
+  return reversedString
 }
-
 /*
   Ejercicio 2: Check for Palindrome
   Escribe una función isPalindrome que tome una cadena como entrada 
@@ -14,6 +15,8 @@ function reverseString(str) {
 */
 function isPalindrome(str) {
   // Tu solución acá
+  let cleanStr = str.toLowerCase().split('').join('')
+  return cleanStr === cleanStr.split('').reverse().join('')
 }
 
 /*
@@ -31,7 +34,23 @@ function isPalindrome(str) {
 
 function closestPair(arr) {
   // Tu solución acá
+
+  arr.sort((a,b)=> a-b)
+  let minDiff = Infinity
+  let pair = []
+
+  for(i=0; i < arr.length - 1; i++){
+    const diff = arr[i+1] - arr[i]
+    if(diff < minDiff){
+      minDiff = diff
+      pair = [arr[i],arr[i+1]]
+    }
+  }
+
+  return pair
+
 }
+
 
 
 /*
@@ -68,7 +87,51 @@ function closestPair(arr) {
 
 class Calculator {
   // Tu solución acá
+  constructor(){
+    this.result = 0
+  }
+
+  add(a,b){
+    this.result = a+b
+    return this.result
+  }
+
+  subtract(a,b){
+    this.result = a - b
+    return this.result
+  }
+
+  multiply(a,b){
+    this.result = a * b
+    return this.result
+  }
+
+  divide(a,b){
+    if(b === 0){
+      throw new Error('LDivision by zero is not allowed')
+    }
+    this.result = a / b
+    return this.result
+  }
+
+  getLastResult(){
+    return this.result
+  }
 }
+
+  Calculator.prototype.exponentiate = function(base,exponent){
+    if(exponent < 0){
+      throw new Error('Exponentiation with negative exponent is not allowed')
+    }
+    
+    if(exponent === 0){
+      return this.result = 1
+    }
+    this.result = Math.pow(base,exponent)
+    return this.result
+  }
+
+
 
 module.exports = {
   closestPair,
