@@ -23,7 +23,10 @@ export function userReducer(state, action) {
         ),
       };
     case TYPES.ADD_USER:
-      return true;
+      return {
+        ...state,
+        allUsers:[...state.allUsers,action.payload]
+      }
 
     case TYPES.EDIT_USER:
       return true;
