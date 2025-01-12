@@ -1,8 +1,27 @@
-'use client'
-
+"use client";
+import React, { useState } from "react";
+import { Modal } from "antd";
 import { Table, Tag, Space } from "antd";
 
-function UsersTable({users}) {
+const DeleteModal = ({ isModalOpen, setIsModalOpen, onConfirm, userToDelete}) => {
+  return (
+    <Modal
+      title="Confirmar Eliminación"
+      open={isModalOpen}
+      onOk={() => {
+        onConfirm(); // Ejecutar la acción de eliminación confirmada
+        setIsModalOpen(false); // Cerrar el modal
+      }}
+      onCancel={() => setIsModalOpen(false)} // Solo cierra el modal
+    >
+      <p>¿Está seguro que desea eliminar al usuario <span className="text-red-500">@{userToDelete?.username}</span>? </p>
+    </Modal>
+  );
+};
+
+function UsersTable({ users, handleEdit, handleDelete }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   const columns = [
     {
@@ -38,18 +57,28 @@ function UsersTable({users}) {
       title: "Acciones",
       dataIndex: "actions",
       key: "actions",
-      render: (_) => (
+      render: (_, user) => (
         <div
           style={{
             display: "flex",
-            justifyContent: "center", // Centra horizontalmente
-            gap: "8px", // Espaciado entre los botones
-            color:'blue'
+            justifyContent: "center",
+            gap: "8px",
+            color: "blue",
           }}
         >
           <Space>
-            <a style={{ padding: "4px 8px" }}>Editar</a>
-            <a style={{ padding: "4px 8px" }}>Eliminar</a>
+            <a style={{ padding: "4px 8px" }} onClick={() => handleEdit(user)}>
+              Editar
+            </a>
+            <a
+              style={{ padding: "4px 8px" }}
+              onClick={() => {
+                setUserToDelete(user); // Establecer el usuario a eliminar
+                setIsModalOpen(true); // Abrir el modal
+              }}
+            >
+              Eliminar
+            </a>
           </Space>
         </div>
       ),
@@ -60,8 +89,18 @@ function UsersTable({users}) {
   return (
     <section>
       {users && (
-        <Table dataSource={users} columns={columns} rowKey="id" bordered/>
+        <Table dataSource={users} columns={columns} rowKey="id" bordered />
       )}
+      <DeleteModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        userToDelete = {userToDelete}
+        onConfirm={() => {
+          if (userToDelete) {
+            handleDelete(userToDelete.id); // Llamar a la función de eliminación
+          }
+        }}
+      />
     </section>
   );
 }
