@@ -5,6 +5,8 @@ const initialState = {
   searchedUsers: [], //Usuarios encontrados,
 };
 
+//Manejo dos valores para el estado, uno con todos los datos originales, otro con el estado donde consume la Tabla y filtros
+
 export function userReducer(state, action) {
   switch (action.type) {
 
@@ -57,7 +59,7 @@ export function userReducer(state, action) {
         allUsers: state.allUsers.filter((user)=>user.id !== action.payload),
         searchedUsers: state.allUsers.filter((user)=>user.id !== action.payload)
 
-      }//Hice un borrado físico de la información alojada en el state principal.
+      }
     default: 
     return initialState;
   }
