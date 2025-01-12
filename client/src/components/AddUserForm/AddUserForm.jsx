@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal, Select} from "antd";
+import { Button, Form, Input, Modal, Select } from "antd";
 import React, { useState } from "react";
 
 const ModalForm = ({ open, onCreate, onCancel }) => {
@@ -9,7 +9,10 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
       open={open}
       title="Agregar usuario"
       okText="Agregar usuario"
-      onCancel={onCancel}
+      onCancel={()=>{
+        form.resetFields();
+        onCancel()
+      }}
       footer={[
         <Button
           key="submit"
@@ -29,17 +32,6 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
           Agregar usuario
         </Button>,
       ]}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            form.resetFields();
-            onCreate(values);
-          })
-          .catch((info) => {
-            console.log("Validate Failed:", info);
-          });
-      }}
     >
       <Form
         className="flex justify-around px-0"
@@ -61,7 +53,7 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
               },
             ]}
           >
-            <Input placeholder="johndoe"/>
+            <Input placeholder="johndoe" />
           </Form.Item>
 
           <Form.Item
@@ -104,7 +96,7 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
               },
             ]}
           >
-            <Input placeholder="johndoe@gmail.com"/>
+            <Input placeholder="johndoe@gmail.com" />
           </Form.Item>
 
           <Form.Item
@@ -117,7 +109,7 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
               },
             ]}
           >
-            <Input placeholder="Doe"/>
+            <Input placeholder="Doe" />
           </Form.Item>
 
           <Form.Item
@@ -126,7 +118,8 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
             rules={[
               {
                 required: true,
-                message: "Por favor, ingrese la edad del usuario con valores numéricos",
+                message:
+                  "Por favor, ingrese la edad del usuario con valores numéricos",
               },
             ]}
           >
@@ -138,9 +131,9 @@ const ModalForm = ({ open, onCreate, onCancel }) => {
   );
 };
 
-const AddUserForm = ({handleCreate}) => {
+const AddUserForm = ({ handleCreate }) => {
   const [open, setOpen] = useState(false);
-
+  
   return (
     <div>
       <Button
@@ -153,9 +146,9 @@ const AddUserForm = ({handleCreate}) => {
       </Button>
       <ModalForm
         open={open}
-        onCreate={(values)=> {
-          handleCreate(values)
-          setOpen(false)
+        onCreate={(values) => {
+          handleCreate(values);
+          setOpen(false);
         }}
         onCancel={() => {
           setOpen(false);
@@ -164,4 +157,5 @@ const AddUserForm = ({handleCreate}) => {
     </div>
   );
 };
+
 export default AddUserForm;

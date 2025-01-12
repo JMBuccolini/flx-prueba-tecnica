@@ -4,7 +4,6 @@ import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import SearchInput from "@/components/SearchInput/SearchInput";
 import FilterInput from "@/components/FilterInput/FilterInput";
 import UsersTable from "@/components/UsersTable/UsersTable";
-import AddUserBtn from "@/components/AddUserBtn/AddUserBtn";
 import { useReducer, useEffect } from "react";
 import { userReducer } from "@/reducer/store/reducer";
 import { TYPES } from "@/reducer/actions/actions";
@@ -29,6 +28,8 @@ export default function Home() {
       .catch((err) => console.log("Hubo un error con el fetching", err));
   }, []);
 
+
+  
   const onSearch = (value)=>{
     dispatch({type:TYPES.SEARCH_USER, payload: value})
   }
