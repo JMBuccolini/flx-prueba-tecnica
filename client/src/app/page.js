@@ -101,7 +101,6 @@ export default function Home() {
         }}
         onCancel={() => {
           setOpen(false);
-          setInitialValues('')
         }}
         initialValues = {initialValues}
       />

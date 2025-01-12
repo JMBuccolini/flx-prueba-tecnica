@@ -1,0 +1,23 @@
+.custom-delete-modal .ant-modal-footer {
+    padding-right: 1rem;
+    border-top: 1px solid #e8e8e8; /* Color suave */
+    padding-top: 16px; /* Espaciado superior */
+    width: 100%;
+  }
+
+.custom-delete-modal .ant-modal-title{
+    padding-left: 1rem;
+    border-bottom: 1px solid #e8e8e8; /* Color suave */
+    padding-bottom: 16px; /* Espaciado superior */
+    width: 100%;
+}
+
+.custom-delete-modal .ant-modal-content{
+    padding-right:0;
+    padding-left:0;
+    width: 438px;
+}
+
+.custom-delete-modal .ant-modal-body{
+    padding: 24px;
+}

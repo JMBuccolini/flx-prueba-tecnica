@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Modal } from "antd";
-import { Table, Tag, Space, Spin } from "antd";
+import { Table, Tag, Space } from "antd";
+
+import './DeleteModal.css'
 
 const DeleteModal = ({ isModalOpen, setIsModalOpen, onConfirm, userToDelete}) => {
   const [loading, setLoading] = useState(false)
@@ -10,6 +12,11 @@ const DeleteModal = ({ isModalOpen, setIsModalOpen, onConfirm, userToDelete}) =>
       title="Confirmar Eliminación"
       open={isModalOpen}
       confirmLoading={loading}
+      className="custom-delete-modal"
+      okText = "Eliminar"
+      okButtonProps={{
+        style: { backgroundColor: "red", borderColor: "red", color: "white" },
+      }}
       onOk={() => {
         setLoading(true)
         setTimeout(()=>{
@@ -49,6 +56,7 @@ function UsersTable({ users, handleEdit, handleDelete }) {
     {
       title: "Estado",
       dataIndex: "status",
+      width:'1rem',
       key: "status",
       render: (_, { status }) => {
         const color = status === "inactive" ? "volcano" : "green";

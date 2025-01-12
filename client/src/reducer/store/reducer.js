@@ -54,8 +54,11 @@ export function userReducer(state, action) {
     case TYPES.DELETE_USER:
       return{
         ...state,
+        allUsers: state.allUsers.filter((user)=>user.id !== action.payload),
         searchedUsers: state.allUsers.filter((user)=>user.id !== action.payload)
 
-      }
+      }//Hice un borrado físico de la información alojada en el state principal.
+    default: 
+    return initialState;
   }
 }

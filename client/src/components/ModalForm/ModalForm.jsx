@@ -1,10 +1,12 @@
 "use client";
 import { Form, Modal, Input, Select, Button } from "antd";
 import { useEffect, useState } from "react";
+import './ModalStyles.css'
 
 const ModalForm = ({ open, onCreate, onCancel, initialValues }) => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+
   const formatName = (name) => {
     if (!name) return "";
     return name
@@ -16,9 +18,9 @@ const ModalForm = ({ open, onCreate, onCancel, initialValues }) => {
 
   useEffect(() => {
     if (initialValues) {
-      form.setFieldsValue(initialValues); // Si hay valores iniciales, los carga en el formulario
-    } else {
-      form.setFieldValue(null);
+      form.setFieldsValue(initialValues); // Si hay datos para editar, los carga en el formulario
+    }else{
+      form.setFieldValue(null) //Esto produce un warning que no he podido resolver que tiene que ver con la instancia de use.Form
     }
   }, [initialValues, form]);
 
@@ -27,11 +29,14 @@ const ModalForm = ({ open, onCreate, onCancel, initialValues }) => {
       open={open}
       title={initialValues ? "Editar usuario" : "Agregar usuario"}
       okText="Agregar usuario"
+      getContainer = {false}
+      className="custom-modal"
       onCancel={() => {
-        form.resetFields();
+        form.resetFields()
         onCancel();
       }}
-      footer={[
+      footer={
+        [
         <Button
           key="submit"
           type="primary"
