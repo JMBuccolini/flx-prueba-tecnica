@@ -1,16 +1,23 @@
 "use client";
 import React, { useState } from "react";
 import { Modal } from "antd";
-import { Table, Tag, Space } from "antd";
+import { Table, Tag, Space, Spin } from "antd";
 
 const DeleteModal = ({ isModalOpen, setIsModalOpen, onConfirm, userToDelete}) => {
+  const [loading, setLoading] = useState(false)
   return (
     <Modal
       title="Confirmar Eliminación"
       open={isModalOpen}
+      confirmLoading={loading}
       onOk={() => {
-        onConfirm(); // Ejecutar la acción de eliminación confirmada
-        setIsModalOpen(false); // Cerrar el modal
+        setLoading(true)
+        setTimeout(()=>{
+          onConfirm(); // Ejecutar la acción de eliminación confirmada
+          setIsModalOpen(false); // Cerrar el modal
+          setLoading(false)
+        },2000)
+        
       }}
       onCancel={() => setIsModalOpen(false)} // Solo cierra el modal
     >

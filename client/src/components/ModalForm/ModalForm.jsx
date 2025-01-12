@@ -1,8 +1,9 @@
 "use client";
 import { Form, Modal, Input, Select, Button } from "antd";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ModalForm = ({ open, onCreate, onCancel, initialValues }) => {
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
   const formatName = (name) => {
     if (!name) return "";
@@ -34,17 +35,22 @@ const ModalForm = ({ open, onCreate, onCancel, initialValues }) => {
         <Button
           key="submit"
           type="primary"
+          loading={loading}
           onClick={() => {
             form
               .validateFields()
               .then((values) => {
                 form.resetFields();
-                onCreate({
-                  ...initialValues,
-                  ...values,
-                  name: formatName(values.name),
-                  lastname: formatName(values.lastname),
-                });
+                setLoading(true);
+                setTimeout(() => {
+                  onCreate({
+                    ...initialValues,
+                    ...values,
+                    name: formatName(values.name),
+                    lastname: formatName(values.lastname),
+                  });
+                  setLoading(false);
+                }, 2000);
               })
               .catch((info) => {
                 console.log("Validate Failed:", info);
