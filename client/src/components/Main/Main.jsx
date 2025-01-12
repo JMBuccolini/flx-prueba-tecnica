@@ -35,7 +35,7 @@ export default function Main() {
       .catch((err) => console.log("Hubo un error con el fetching", err));
     }
 
-    getData()
+   getData()
   }, []);
 
 
