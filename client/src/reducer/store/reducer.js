@@ -2,7 +2,7 @@ import { TYPES } from "../actions/actions";
 
 const initialState = {
   allUsers: [], // Todos los usuarios
-  searchedUsers: [], //Usuarios encontrados
+  searchedUsers: [], //Usuarios encontrados,
 };
 
 export function userReducer(state, action) {
@@ -47,7 +47,7 @@ export function userReducer(state, action) {
         searchedUsers:
           action.payload === "all"
             ? state.allUsers
-            : state.searchedUsers.filter(
+            : state.allUsers.filter(
                 (user) => user.status === action.payload
               ),
       };

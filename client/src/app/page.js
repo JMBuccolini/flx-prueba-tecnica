@@ -15,7 +15,7 @@ import "@ant-design/v5-patch-for-react-19";
 export default function Home() {
   const [state, dispatch] = useReducer(userReducer, {
     allUsers: [],
-    searchedUsers: [],
+    searchedUsers: []
   });
   const [open, setOpen] = useState(false);
   const [initialValues, setInitialValues] = useState('')
@@ -36,7 +36,7 @@ export default function Home() {
 
 
 
-  const onSearch = (value) => {
+  const handleSearch = (value) => {
     dispatch({ type: TYPES.SEARCH_USER, payload: value });
   };
 
@@ -75,7 +75,7 @@ export default function Home() {
         <Breadcrums />
         <section className="flex justify-between w-full ">
           <section className="flex place-content-center gap-x-8">
-            <SearchInput onSearch={onSearch} />
+            <SearchInput handleSearch={handleSearch} />
             <FilterInput onChange={handleChange} />
           </section>
           <section>
