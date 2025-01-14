@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import Breadcrums from "@/components/Breadcrums/Breadcrums";
 import SearchInput from "@/components/SearchInput/SearchInput";
@@ -13,65 +13,74 @@ import { Button } from "antd";
 import "@ant-design/v5-patch-for-react-19";
 
 export default function Main() {
+  
   const [state, dispatch] = useReducer(userReducer, {
     allUsers: [],
-    searchedUsers: []
+    searchedUsers: [],
   });
   const [open, setOpen] = useState(false);
-  const [initialValues, setInitialValues] = useState('')
-
-
+  const [initialValues, setInitialValues] = useState("");
+  const [tableLoader, setTableLoader] = useState(null)
   useEffect(() => {
-    const getData = ()=>{
+    console.log('se dispara el useEffect')
+    setTableLoader(true)
+    let active = true;
+    const getData = () => {
       fetch("http://localhost:4000/users")
-      .then((res) => res.json())
-      .then((res) => {
-        const newUserTable = res.map((user) => ({
-          ...user,
-          id: uuidv4(),
-        }));
-        dispatch({ type: TYPES.SET_TABLE, payload: newUserTable });
-      })
-      .catch((err) => console.log("Hubo un error con el fetching", err));
-    }
+        .then((res) => res.json())
+        .then((res) => {
+          const newUserTable = res.map((user) => ({
+            ...user,
+            id: uuidv4(),
+          }));
+          setTimeout(()=>{
 
-   getData()
+            dispatch({ type: TYPES.SET_TABLE, payload: newUserTable });
+            setTableLoader(false)
+          },1500)
+          
+        })
+        .catch((err) => console.log("Hubo un error con el fetching", err));
+    };
+
+    getData();
+    return(()=>{
+      active = false;
+      
+    })
   }, []);
-
-
 
   const handleSearch = (value) => {
     dispatch({ type: TYPES.SEARCH_USER, payload: value });
   };
 
   const handleEdit = (user) => {
-    setInitialValues(user)
+    setInitialValues(user);
     setOpen(true);
   };
 
-  const handleDelete = (id) =>{
-    console.log('ingreso al delete')
-    dispatch({type:TYPES.DELETE_USER, payload: id})
-  }
-
+  const handleDelete = (id) => {
+    console.log("ingreso al delete");
+    dispatch({ type: TYPES.DELETE_USER, payload: id });
+  };
 
   const handleChange = (value) => {
     dispatch({ type: TYPES.FILTER_STATUS, payload: value });
   };
 
   const handleCreate = (values) => {
-    if(initialValues){
-      dispatch({ type: TYPES.EDIT_USER, payload: {...initialValues,...values} });
-      
-    }else{
+    if (initialValues) {
+      dispatch({
+        type: TYPES.EDIT_USER,
+        payload: { ...initialValues, ...values },
+      });
+    } else {
       const newUser = { ...values, id: uuidv4() };
-      dispatch({ type: TYPES.ADD_USER, payload: newUser }); 
+      dispatch({ type: TYPES.ADD_USER, payload: newUser });
     }
     setInitialValues(null);
     setOpen(false);
   };
-
-
 
   return (
     <main className="bg-[#F5F5F5]">
@@ -86,7 +95,7 @@ export default function Main() {
             <Button
               type="primary"
               onClick={() => {
-                setInitialValues(null)
+                setInitialValues(null);
                 setOpen(true);
               }}
             >
@@ -94,7 +103,13 @@ export default function Main() {
             </Button>
           </section>
         </section>
-        <UsersTable users={state.searchedUsers} handleEdit={handleEdit} handleDelete={handleDelete} />
+        <UsersTable
+          users={state.searchedUsers}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+          tableLoader = {tableLoader}
+        />
+        ;
       </section>
 
       <ModalForm
@@ -106,7 +121,7 @@ export default function Main() {
         onCancel={() => {
           setOpen(false);
         }}
-        initialValues = {initialValues}
+        initialValues={initialValues}
       />
     </main>
   );
