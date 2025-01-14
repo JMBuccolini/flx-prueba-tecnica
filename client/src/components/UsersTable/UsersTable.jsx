@@ -33,7 +33,7 @@ const DeleteModal = ({ isModalOpen, setIsModalOpen, onConfirm, userToDelete}) =>
   );
 };
 
-function UsersTable({ users, handleEdit, handleDelete }) {
+function UsersTable({ users, handleEdit, handleDelete, tableLoader }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
 
@@ -104,7 +104,7 @@ function UsersTable({ users, handleEdit, handleDelete }) {
   return (
     <section>
       {users && (
-        <Table dataSource={users} columns={columns} rowKey="id" bordered />
+        <Table dataSource={users} columns={columns} rowKey="id" bordered loading={tableLoader} />
       )}
       <DeleteModal
         isModalOpen={isModalOpen}
