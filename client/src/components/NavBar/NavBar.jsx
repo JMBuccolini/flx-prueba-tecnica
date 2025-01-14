@@ -9,6 +9,7 @@ function NavBar(){
                alt="logotipo de Flexxus"
                width={200}
                height={200}
+               priority={true}
             />
         </section>
     )
